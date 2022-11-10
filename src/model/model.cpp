@@ -8,37 +8,21 @@ Model::Model(Model &value) {
 }
 
 void Model::add(double a) { data += a; }
-
 void Model::sub(double a) { data -= a; }
-
 void Model::div(double a) { data /= a; }
-
 void Model::mult(double a) { data *= a; }
-
 void Model::pow(double a) { std::pow(data, a); }
-
 void Model::mod(double a) { fmod(data, a); }
-
 void Model::cos(double a) { data = std::cos(a); }
-
 void Model::sin(double a) { data = std::sin(a); }
-
 void Model::tan(double a) { data = std::tan(a); }
-
 void Model::acos(double a) { data = std::acos(a); }
-
 void Model::asin(double a) { data = std::asin(a); }
-
 void Model::atan(double a) { data = std::atan(a); }
-
 void Model::sqrt(double a) { data = std::sqrt(a); }
-
 void Model::ln(double a) { data = std::log(a); }
-
 void Model::log(double a) { data = std::log10(a); }
-
 void Model::reset() { data = 0; }
-
 double Model::getData() { return this->data; }
 
 list<list_calc> Model::getStack() { return this->stack_calc; }
@@ -304,42 +288,41 @@ double Model::ScanLineEdit(string input, double in_x) {
   return this->calculation(this->stack_calc);
 }
 
-void Model::PrintStack(list<list_calc> &input) {
-  list<list_calc> temp(input);
-  while (!temp.empty()) {
-    if (temp.back().prt != 0) {
-      printf("%s", temp.back().type == 3 ? "+" : "");
-      printf("%s", temp.back().type == 4 ? "-" : "");
-      printf("%s", temp.back().type == 5 ? "/" : "");
-      printf("%s", temp.back().type == 6 ? "*" : "");
-      printf("%s", temp.back().type == 7 ? "^" : "");
-      printf("%s", temp.back().type == 8 ? "mod" : "");
-      printf("%s", temp.back().type == 11 ? "cos" : "");
-      printf("%s", temp.back().type == 12 ? "sin" : "");
-      printf("%s", temp.back().type == 13 ? "tan" : "");
-      printf("%s", temp.back().type == 14 ? "acos" : "");
-      printf("%s", temp.back().type == 15 ? "asin" : "");
-      printf("%s", temp.back().type == 16 ? "atan" : "");
-      printf("%s", temp.back().type == 17 ? "sqrt" : "");
-      printf("%s", temp.back().type == 18 ? "ln" : "");
-      printf("%s", temp.back().type == 19 ? "log" : "");
-      printf("%s", temp.back().type == 20 ? "(" : "");
-      printf("%s", temp.back().type == 21 ? ")" : "");
-      printf(" ");
-    } else {
-      std::cout << temp.back().num << " ";
-    }
-    temp.pop_back();
-  }
-  std::cout << "\n";
-}
+// void Model::PrintStack(list<list_calc> &input) {
+//   list<list_calc> temp(input);
+//   while (!temp.empty()) {
+//     if (temp.back().prt != 0) {
+//       printf("%s", temp.back().type == 3 ? "+" : "");
+//       printf("%s", temp.back().type == 4 ? "-" : "");
+//       printf("%s", temp.back().type == 5 ? "/" : "");
+//       printf("%s", temp.back().type == 6 ? "*" : "");
+//       printf("%s", temp.back().type == 7 ? "^" : "");
+//       printf("%s", temp.back().type == 8 ? "mod" : "");
+//       printf("%s", temp.back().type == 11 ? "cos" : "");
+//       printf("%s", temp.back().type == 12 ? "sin" : "");
+//       printf("%s", temp.back().type == 13 ? "tan" : "");
+//       printf("%s", temp.back().type == 14 ? "acos" : "");
+//       printf("%s", temp.back().type == 15 ? "asin" : "");
+//       printf("%s", temp.back().type == 16 ? "atan" : "");
+//       printf("%s", temp.back().type == 17 ? "sqrt" : "");
+//       printf("%s", temp.back().type == 18 ? "ln" : "");
+//       printf("%s", temp.back().type == 19 ? "log" : "");
+//       printf("%s", temp.back().type == 20 ? "(" : "");
+//       printf("%s", temp.back().type == 21 ? ")" : "");
+//       printf(" ");
+//     } else {
+//       std::cout << temp.back().num << " ";
+//     }
+//     temp.pop_back();
+//   }
+//   std::cout << "\n";
+// }
 
 double Model::calculation(list<list_calc> &head) {
   this->ReversStack();
   Model temp;
-  double result = 0;
+  this->reset();
   int count = 2;
-  double a = 0;
   double b = 0;
   while (!head.empty()) {
     if (head.back().prt == 0) {
@@ -351,7 +334,7 @@ double Model::calculation(list<list_calc> &head) {
         if (count == 2) {
           b = temp.stack_calc.back().num;
         } else if (count == 1) {
-          a = temp.stack_calc.back().num;
+          data = temp.stack_calc.back().num;
         } else if (count == 0) {
           break;
         }
@@ -360,7 +343,7 @@ double Model::calculation(list<list_calc> &head) {
       }
       if (count == 0) {
         temp.PushStack(stack_calc.back().type, stack_calc.back().prt,
-                       this->arichmetics(a, b, stack_calc.back().type));
+                       this->arichmetics(b, stack_calc.back().type));
       }
       count = 2;
     } else if ((stack_calc.back().prt > 0) && (stack_calc.back().type > MOD &&
@@ -383,62 +366,32 @@ double Model::calculation(list<list_calc> &head) {
     head.pop_back();
   }
   if (!temp.stack_calc.empty()) {
-    result = temp.stack_calc.back().num;
+    data = temp.stack_calc.back().num;
   }
-  return result;
+  return data;
 }
 
-double Model::arichmetics(double a, double b, int sumbol) {
-  double result = 0;
-  if (sumbol == PLUS) {
-    result = a + b;
-  }
-  if (sumbol == MINUS) {
-    result = a - b;
-  }
-  if (sumbol == DIV) {
-    result = a / b;
-  }
-  if (sumbol == MULT) {
-    result = a * b;
-  }
-  if (sumbol == POW) {
-    result = std::pow(a, b);
-  }
-  if (sumbol == MOD) {
-    result = std::fmod(a, b);
-  }
-  return result;
+double Model::arichmetics(double b, int sumbol) {
+  // this->reset();
+  if (sumbol == PLUS) { this->add(b); }
+  if (sumbol == MINUS) { this->sub(b); }
+  if (sumbol == DIV) { this->div(b); }
+  if (sumbol == MULT) { this->mult(b);}
+  if (sumbol == POW) { this->pow(b); }
+  if (sumbol == MOD) { this->mod(b); }
+  return data;
 }
 
 double Model::triganimetric(double a, int sumbol) {
-  double result = 0;
-  if (sumbol == COS) {
-    result = std::cos(a);
-  }
-  if (sumbol == SIN) {
-    result = std::sin(a);
-  }
-  if (sumbol == TAN) {
-    result = std::tan(a);
-  }
-  if (sumbol == ACOS) {
-    result = std::acos(a);
-  }
-  if (sumbol == ASIN) {
-    result = std::asin(a);
-  }
-  if (sumbol == ATAN) {
-    result = std::atan(a);
-  }
-  if (sumbol == SQRT) {
-    result = std::sqrt(a);
-  }
-  if (sumbol == LN) {
-    result = std::log(a);
-  }
-  if (sumbol == LOG) {
-    result = std::log10(a);
-  }
-  return result;
+  // this->reset();
+  if (sumbol == COS) { this->cos(a); }
+  if (sumbol == SIN) { this->sin(a); }
+  if (sumbol == TAN) { this->tan(a); }
+  if (sumbol == ACOS) { this->acos(a); }
+  if (sumbol == ASIN) { this->asin(a); }
+  if (sumbol == ATAN) { this->atan(a); }
+  if (sumbol == SQRT) { this->sqrt(a); }
+  if (sumbol == LN) { this->ln(a); }
+  if (sumbol == LOG) { this->log(a); }
+  return data;
 }

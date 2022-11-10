@@ -84,7 +84,7 @@ public:
   void ReversStack();
   void SortStation();
   double calculation(list<list_calc> &head);
-  double arichmetics(double a, double b, int sumbol);
+  double arichmetics(double b, int sumbol);
   double triganimetric(double a, int sumbol);
 };
 

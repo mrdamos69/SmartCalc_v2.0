@@ -1140,7 +1140,7 @@ QPushButton:pressed {
      <string>credit calc</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_graph_3">
+   <widget class="QPushButton" name="pushButton_deposit_calc">
     <property name="geometry">
      <rect>
       <x>360</x>

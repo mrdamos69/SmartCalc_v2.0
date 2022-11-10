@@ -1,9 +1,10 @@
 #include "view.h"
-#include "graph.h""
+#include "graph.h"
 #include "ui_view.h"
 
 View::View(QWidget *parent) : QMainWindow(parent), ui(new Ui::View) {
   ui->setupUi(this);
+  graph_func = new Graph;
   connect(ui->pushButton_0, SIGNAL(clicked()), this, SLOT(digits_numbers()));
   connect(ui->pushButton_1, SIGNAL(clicked()), this, SLOT(digits_numbers()));
   connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(digits_numbers()));
@@ -14,6 +15,10 @@ View::View(QWidget *parent) : QMainWindow(parent), ui(new Ui::View) {
   connect(ui->pushButton_7, SIGNAL(clicked()), this, SLOT(digits_numbers()));
   connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(digits_numbers()));
   connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(digits_numbers()));
+
+  connect(this, &View::signal_text, graph_func, &Graph::slot_text);
+  connect(this, &View::signal_x, graph_func, &Graph::slot_x);
+
 }
 
 View::~View() { delete ui; }
@@ -146,21 +151,19 @@ void View::clean_result() {
 }
 
 void View::on_pushButton_graph_clicked() {
-    Graph graph;
-    this->close();
-    graph.open();
-    graph.paintingActive();
+    emit signal_text(ui->lineEdit->text());
+    emit signal_x(ui->lineEdit_2->text());
+    graph_func->print_graph();
+    graph_func->show();
 }
 
-
-void View::on_pushButton_credit_calc_clicked()
-{
-
+void View::on_pushButton_credit_calc_clicked() {
+    calc_dialog = new credit_calc;
+    calc_dialog->show();
 }
 
-
-void View::on_pushButton_graph_3_clicked()
-{
-
+void View::on_pushButton_deposit_calc_clicked() {
+    deposit_dialog = new deposit_calc;
+    deposit_dialog->show();
 }
 

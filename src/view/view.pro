@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,18 +11,29 @@ CONFIG += c++17
 SOURCES += \
     ../controller/controller.cpp \
     ../model/model.cpp \
+    credit_calc.cpp \
+    deposit_calc.cpp \
     graph.cpp \
     main.cpp \
+    qcustomplot.cpp \
+    table.cpp \
     view.cpp
 
 HEADERS += \
     ../controller/controller.h \
     ../model/model.h \
+    credit_calc.h \
+    deposit_calc.h \
     graph.h \
+    qcustomplot.h \
+    table.h \
     view.h
 
 FORMS += \
+    credit_calc.ui \
+    deposit_calc.ui \
     graph.ui \
+    table.ui \
     view.ui
 
 # Default rules for deployment.

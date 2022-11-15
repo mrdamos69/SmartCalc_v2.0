@@ -6,6 +6,7 @@
 class Controller {
 private:
   Model model;
+
 public:
   double add(double a);
   double sub(double a);

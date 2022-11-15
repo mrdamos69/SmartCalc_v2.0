@@ -1,10 +1,11 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include <QMainWindow>
-#include <graph.h>
 #include <credit_calc.h>
 #include <deposit_calc.h>
+#include <graph.h>
+
+#include <QMainWindow>
 
 // #include "../model/model.h"
 #include "../controller/controller.h"
@@ -48,13 +49,10 @@ class View : public QMainWindow {
   void on_pushButton_tch_clicked();
   void on_pushButton_x_clicked();
   void on_pushButton_graph_clicked();
-
   void on_pushButton_credit_calc_clicked();
-
-
   void on_pushButton_deposit_calc_clicked();
 
-private:
+ private:
   Ui::View *ui;
   Graph *graph_func;
   credit_calc *calc_dialog;
@@ -62,9 +60,8 @@ private:
   Controller contr_result;
   bool clean_view;
 
-signals:
+ signals:
   void signal_text(QString);
   void signal_x(QString);
-
 };
 #endif  // VIEW_H

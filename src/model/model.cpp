@@ -29,7 +29,7 @@ list<list_calc> Model::getStack() { return this->stack_calc; }
 
 double Model::ReadNum(char *temp_str) {
   double num = atof(temp_str);
-  delete [] temp_str;
+  delete[] temp_str;
   return num;
 }
 
@@ -281,7 +281,7 @@ double Model::ScanLineEdit(string input, double in_x) {
         break;
       }
     }
-    delete [] temp_num;
+    delete[] temp_num;
   }
   this->SortStation();
 
@@ -373,25 +373,55 @@ double Model::calculation(list<list_calc> &head) {
 
 double Model::arichmetics(double b, int sumbol) {
   // this->reset();
-  if (sumbol == PLUS) { this->add(b); }
-  if (sumbol == MINUS) { this->sub(b); }
-  if (sumbol == DIV) { this->div(b); }
-  if (sumbol == MULT) { this->mult(b);}
-  if (sumbol == POW) { this->pow(b); }
-  if (sumbol == MOD) { this->mod(b); }
+  if (sumbol == PLUS) {
+    this->add(b);
+  }
+  if (sumbol == MINUS) {
+    this->sub(b);
+  }
+  if (sumbol == DIV) {
+    this->div(b);
+  }
+  if (sumbol == MULT) {
+    this->mult(b);
+  }
+  if (sumbol == POW) {
+    this->pow(b);
+  }
+  if (sumbol == MOD) {
+    this->mod(b);
+  }
   return data;
 }
 
 double Model::triganimetric(double a, int sumbol) {
   // this->reset();
-  if (sumbol == COS) { this->cos(a); }
-  if (sumbol == SIN) { this->sin(a); }
-  if (sumbol == TAN) { this->tan(a); }
-  if (sumbol == ACOS) { this->acos(a); }
-  if (sumbol == ASIN) { this->asin(a); }
-  if (sumbol == ATAN) { this->atan(a); }
-  if (sumbol == SQRT) { this->sqrt(a); }
-  if (sumbol == LN) { this->ln(a); }
-  if (sumbol == LOG) { this->log(a); }
+  if (sumbol == COS) {
+    this->cos(a);
+  }
+  if (sumbol == SIN) {
+    this->sin(a);
+  }
+  if (sumbol == TAN) {
+    this->tan(a);
+  }
+  if (sumbol == ACOS) {
+    this->acos(a);
+  }
+  if (sumbol == ASIN) {
+    this->asin(a);
+  }
+  if (sumbol == ATAN) {
+    this->atan(a);
+  }
+  if (sumbol == SQRT) {
+    this->sqrt(a);
+  }
+  if (sumbol == LN) {
+    this->ln(a);
+  }
+  if (sumbol == LOG) {
+    this->log(a);
+  }
   return data;
 }

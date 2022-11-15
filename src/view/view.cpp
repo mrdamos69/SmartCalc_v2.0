@@ -1,4 +1,5 @@
 #include "view.h"
+
 #include "graph.h"
 #include "ui_view.h"
 
@@ -18,10 +19,12 @@ View::View(QWidget *parent) : QMainWindow(parent), ui(new Ui::View) {
 
   connect(this, &View::signal_text, graph_func, &Graph::slot_text);
   connect(this, &View::signal_x, graph_func, &Graph::slot_x);
-
 }
 
-View::~View() { delete ui; }
+View::~View() {
+  delete graph_func;
+  delete ui;
+}
 
 void View::digits_numbers() {
   clean_result();
@@ -97,18 +100,17 @@ void View::on_pushButton_pow_clicked() {
 }
 
 void View::on_pushButton_result_clicked() {
-   double x = 0;
-   clean_view = true;
-   QString send = ui->lineEdit->text();
-   std::string ba = send.toStdString();
+  double x = 0;
+  clean_view = true;
+  QString send = ui->lineEdit->text();
+  std::string ba = send.toStdString();
 
-   if (ui->lineEdit_2->text() != "") {
-     x = (ui->lineEdit_2->text().toDouble());
-   }
+  if (ui->lineEdit_2->text() != "") {
+    x = (ui->lineEdit_2->text().toDouble());
+  }
 
-   QString toStr = QString::number(contr_result.input_calc(ba, x), 'g', 15);
-   ui->lineEdit->setText(toStr);
-
+  QString toStr = QString::number(contr_result.input_calc(ba, x), 'g', 15);
+  ui->lineEdit->setText(toStr);
 }
 
 void View::on_pushButton_sin_clicked() {
@@ -151,19 +153,18 @@ void View::clean_result() {
 }
 
 void View::on_pushButton_graph_clicked() {
-    emit signal_text(ui->lineEdit->text());
-    emit signal_x(ui->lineEdit_2->text());
-    graph_func->print_graph();
-    graph_func->show();
+  emit signal_text(ui->lineEdit->text());
+  emit signal_x(ui->lineEdit_2->text());
+  graph_func->print_graph();
+  graph_func->show();
 }
 
 void View::on_pushButton_credit_calc_clicked() {
-    calc_dialog = new credit_calc;
-    calc_dialog->show();
+  calc_dialog = new credit_calc;
+  calc_dialog->show();
 }
 
 void View::on_pushButton_deposit_calc_clicked() {
-    deposit_dialog = new deposit_calc;
-    deposit_dialog->show();
+  deposit_dialog = new deposit_calc;
+  deposit_dialog->show();
 }
-

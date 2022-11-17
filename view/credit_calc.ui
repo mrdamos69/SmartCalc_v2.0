@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>credit_calc</class>
+ <widget class="QDialog" name="credit_calc">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>660</width>
+    <height>260</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Credit_calc</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(35, 27, 34);</string>
+  </property>
+  <widget class="QRadioButton" name="annyitet_calc">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>90</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QRadioButton{
+	color: white;
+}</string>
+   </property>
+   <property name="text">
+    <string>Аннуитетный</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="differenc_calc">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>90</y>
+     <width>271</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QRadioButton{
+	color: white;
+}</string>
+   </property>
+   <property name="text">
+    <string>Дифференцированный</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>150</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(61, 64, 67);
+color: white; 
+border-radius: 7px;
+</string>
+   </property>
+   <property name="singleStep">
+    <double>0.100000000000000</double>
+   </property>
+   <property name="value">
+    <double>6.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>210</y>
+     <width>311</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	background-color: rgb(96, 99, 103);
+  	color: white; 
+	border-radius: 7px;
+}
+QPushButton:pressed {
+    	border: 1px solid  gray;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #A9A9A9, stop: 1 #808080);
+}</string>
+   </property>
+   <property name="text">
+    <string>График платежей</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>150</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(61, 64, 67);
+color: white; 
+border-radius: 7px;
+</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>1 год</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2 года</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3 года</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>4 года</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>5 лет</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>6 лет</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>7 лет</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>8 лет</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>9 лет</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>10 лет</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QSpinBox" name="spinBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>621</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>26</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(61, 64, 67);
+color: white; 
+border-radius: 7px;</string>
+   </property>
+   <property name="frame">
+    <bool>false</bool>
+   </property>
+   <property name="minimum">
+    <number>10000</number>
+   </property>
+   <property name="maximum">
+    <number>10000000</number>
+   </property>
+   <property name="singleStep">
+    <number>1000</number>
+   </property>
+   <property name="value">
+    <number>10000</number>
+   </property>
+  </widget>
+  <widget class="QSlider" name="horizontalSlider">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>621</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>10000000</number>
+   </property>
+   <property name="singleStep">
+    <number>10</number>
+   </property>
+   <property name="pageStep">
+    <number>10000</number>
+   </property>
+   <property name="value">
+    <number>10000</number>
+   </property>
+   <property name="sliderPosition">
+    <number>10000</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>150</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	color: white;
+}</string>
+   </property>
+   <property name="text">
+    <string>Срок кредитования</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>150</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	color: white;
+}</string>
+   </property>
+   <property name="text">
+    <string>%</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="dateEdit">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>150</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(61, 64, 67);
+color: white; 
+border-radius: 7px;</string>
+   </property>
+   <property name="currentSection">
+    <enum>QDateTimeEdit::MonthSection</enum>
+   </property>
+   <property name="displayFormat">
+    <string>MM.yyyy</string>
+   </property>
+   <property name="timeSpec">
+    <enum>Qt::TimeZone</enum>
+   </property>
+   <property name="date">
+    <date>
+     <year>2022</year>
+     <month>11</month>
+     <day>1</day>
+    </date>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

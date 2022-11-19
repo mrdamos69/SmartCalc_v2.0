@@ -1,41 +1,45 @@
 #include "model.h"
 
-Model::Model(Model &value) {
+s21::Model::Model(s21::Model &value)
+    : data(0), temp_num(nullptr), check_num(false) {
   while (!this->stack_calc.empty()) {
     this->stack_calc.pop_back();
   }
   this->stack_calc = value.stack_calc;
 }
 
-void Model::add(double a) { data += a; }
-void Model::sub(double a) { data -= a; }
-void Model::div(double a) { data /= a; }
-void Model::mult(double a) { data *= a; }
-void Model::pow(double a) { std::pow(data, a); }
-void Model::mod(double a) { fmod(data, a); }
-void Model::cos(double a) { data = std::cos(a); }
-void Model::sin(double a) { data = std::sin(a); }
-void Model::tan(double a) { data = std::tan(a); }
-void Model::acos(double a) { data = std::acos(a); }
-void Model::asin(double a) { data = std::asin(a); }
-void Model::atan(double a) { data = std::atan(a); }
-void Model::sqrt(double a) { data = std::sqrt(a); }
-void Model::ln(double a) { data = std::log(a); }
-void Model::log(double a) { data = std::log10(a); }
-void Model::reset() { data = 0; }
-double Model::getData() { return this->data; }
+void s21::Model::add(double a) { data += a; }
+void s21::Model::sub(double a) { data -= a; }
+void s21::Model::div(double a) { data /= a; }
+void s21::Model::mult(double a) { data *= a; }
+void s21::Model::pow(double a) { data = std::pow(data, a); }
+void s21::Model::mod(double a) { data = fmod(data, a); }
+void s21::Model::cos(double a) { data = std::cos(a); }
+void s21::Model::sin(double a) { data = std::sin(a); }
+void s21::Model::tan(double a) { data = std::tan(a); }
+void s21::Model::acos(double a) { data = std::acos(a); }
+void s21::Model::asin(double a) { data = std::asin(a); }
+void s21::Model::atan(double a) { data = std::atan(a); }
+void s21::Model::sqrt(double a) { data = std::sqrt(a); }
+void s21::Model::ln(double a) { data = std::log(a); }
+void s21::Model::log(double a) { data = std::log10(a); }
+void s21::Model::reset() { data = 0; }
+double s21::Model::getData() { return this->data; }
 
-list<list_calc> Model::getStack() { return this->stack_calc; }
+list<s21::list_calc> s21::Model::getStack() { return this->stack_calc; }
 
-double Model::ReadNum(char *temp_str) {
+double s21::Model::ReadNum(char *temp_str) {
   double num = atof(temp_str);
-  delete[] temp_str;
+  if (temp_str != nullptr) {
+    delete[] temp_str;
+    temp_str = nullptr;
+  }
   return num;
 }
 
-double Model::anuitet_calc(double &sum_credit, double &procent, int &size,
-                           double &month_sum, double &month_procent,
-                           double &remains) {
+double s21::Model::anuitet_calc(double &sum_credit, double &procent, int &size,
+                                double &month_sum, double &month_procent,
+                                double &remains) {
   double procent_year = (procent / 100) / (size <= 12 ? size : 12);
   double result =
       (sum_credit * procent_year * std::pow(1 + procent_year, size)) /
@@ -46,9 +50,9 @@ double Model::anuitet_calc(double &sum_credit, double &procent, int &size,
   return result;
 }
 
-double Model::diferic_calc(double &sum_credit, double &procent, int &size,
-                           double &month_sum, double &month_procent,
-                           double &remains) {
+double s21::Model::diferic_calc(double &sum_credit, double &procent, int &size,
+                                double &month_sum, double &month_procent,
+                                double &remains) {
   month_procent = (remains * (procent / 100)) / (size <= 12 ? size : 12);
   month_sum = sum_credit / size;
   double result = month_sum + month_procent;
@@ -56,9 +60,10 @@ double Model::diferic_calc(double &sum_credit, double &procent, int &size,
   return result;
 }
 
-double Model::deposit_calc(QVector<std::pair<QDateTime, double>> &add_sub_money,
-                           QDateTime &data, double &procent,
-                           double &month_procent, double &profit) {
+double
+s21::Model::deposit_calc(QVector<std::pair<QDateTime, double>> &add_sub_money,
+                         QDateTime &data, double &procent,
+                         double &month_procent, double &profit) {
   double result = 0;
   for (auto value : add_sub_money) {
     if (value.first == data) {
@@ -70,18 +75,35 @@ double Model::deposit_calc(QVector<std::pair<QDateTime, double>> &add_sub_money,
   return result;
 }
 
-void Model::all_prifit(double &profit, double &procent_money) {
+QVector<std::pair<QDateTime, double>>
+s21::Model::push_line_table(QVector<std::pair<QDateTime, double>> &input_arr,
+                            QDateTime date, double value) {
+  input_arr.push_front(std::pair<QDateTime, double>(date, value));
+  return input_arr;
+}
+
+std::pair<QVector<double>, QVector<double>>
+s21::Model::print_graph(double &xBegin, double &xEnd, QString &input) {
+  QVector<double> x, y;
+  for (double i = xBegin; i <= (xEnd + 0.1); i += 0.1) {
+    x.push_back(i);
+    y.push_back(this->ScanLineEdit(input.toStdString(), i));
+  }
+  return std::pair<QVector<double>, QVector<double>>(x, y);
+}
+
+void s21::Model::all_prifit(double &profit, double &procent_money) {
   profit += procent_money;
   procent_money = 0;
 }
 
-void Model::PushStack(type_act act, type_priority priority, double data) {
+void s21::Model::PushStack(type_act act, type_priority priority, double data) {
   list_calc temp(act, priority, data);
   this->stack_calc.push_back(temp);
   check_num = false;
 }
 
-void Model::ReversStack() {
+void s21::Model::ReversStack() {
   list<list_calc> new_steck;
   while (!stack_calc.empty()) {
     new_steck.push_back(stack_calc.back());
@@ -90,10 +112,10 @@ void Model::ReversStack() {
   std::swap(stack_calc, new_steck);
 }
 
-void Model::SortStation() {
+void s21::Model::SortStation() {
   this->ReversStack();
-  Model result;
-  Model temp;
+  s21::Model result;
+  s21::Model temp;
   while (!stack_calc.empty()) {
     int menu = stack_calc.back().prt;
     switch (menu) {
@@ -116,7 +138,7 @@ void Model::SortStation() {
   stack_calc = result.stack_calc;
 }
 
-void Model::add_temp_stack(Model &temp, Model &result) {
+void s21::Model::add_temp_stack(s21::Model &temp, s21::Model &result) {
   if (!temp.stack_calc.empty()) {
     if ((stack_calc.back().prt > temp.stack_calc.back().prt) ||
         (stack_calc.back().type == LEFT)) {
@@ -149,10 +171,10 @@ void Model::add_temp_stack(Model &temp, Model &result) {
   }
 }
 
-double Model::ScanLineEdit(string input, double in_x) {
+double s21::Model::ScanLineEdit(string input, double in_x) {
   std::list<list_calc> input_stack;
   temp_num = new char[input.length()]();
-  if (temp_num) {
+  if (temp_num && temp_num) {
     for (size_t i = 0, x = 0; i <= input.length(); i++) {
       switch (input[i]) {
       case '+':
@@ -203,15 +225,21 @@ double Model::ScanLineEdit(string input, double in_x) {
         break;
       }
     }
-    delete[] temp_num;
+    if (temp_num != nullptr) {
+      delete[] temp_num;
+      temp_num = nullptr;
+    }
   }
   this->SortStation();
   return this->calculation(this->stack_calc);
 }
 
-void Model::add_token_plus(string &input, size_t &x, size_t &position) {
+void s21::Model::add_token_plus(string &input, size_t &x, size_t &position) {
   if (input[position - 1] == '(') {
     temp_num[x++] = input[position];
+  } else if (input[position - 1] == 'e' || input[position - 1] == 'E') {
+    temp_num[x++] = input[position];
+    check_num = true;
   } else {
     if (check_num)
       this->PushStack(NUMBER, NUM, this->ReadNum(temp_num));
@@ -221,7 +249,8 @@ void Model::add_token_plus(string &input, size_t &x, size_t &position) {
   }
 }
 
-void Model::add_token_sub(std::string &input, size_t &x, size_t &position) {
+void s21::Model::add_token_sub(std::string &input, size_t &x,
+                               size_t &position) {
   if (input[position - 1] == '(') {
     temp_num[x++] = input[position];
   } else {
@@ -233,7 +262,7 @@ void Model::add_token_sub(std::string &input, size_t &x, size_t &position) {
   }
 }
 
-void Model::add_token_div(std::string &input, size_t &x) {
+void s21::Model::add_token_div(std::string &input, size_t &x) {
   if (check_num)
     this->PushStack(NUMBER, NUM, this->ReadNum(temp_num));
   this->PushStack(DIV, MEDIUM_PR, 0);
@@ -241,7 +270,7 @@ void Model::add_token_div(std::string &input, size_t &x) {
   x = 0;
 }
 
-void Model::add_token_mult(std::string &input, size_t &x) {
+void s21::Model::add_token_mult(std::string &input, size_t &x) {
   if (check_num)
     this->PushStack(NUMBER, NUM, this->ReadNum(temp_num));
   this->PushStack(MULT, MEDIUM_PR, 0);
@@ -249,7 +278,7 @@ void Model::add_token_mult(std::string &input, size_t &x) {
   x = 0;
 }
 
-void Model::add_token_pow(std::string &input, size_t &x) {
+void s21::Model::add_token_pow(std::string &input, size_t &x) {
   if (check_num)
     this->PushStack(NUMBER, NUM, this->ReadNum(temp_num));
   this->PushStack(POW, HIGH_PR, 0);
@@ -257,14 +286,14 @@ void Model::add_token_pow(std::string &input, size_t &x) {
   x = 0;
 }
 
-void Model::add_token_mod(size_t &x) {
+void s21::Model::add_token_mod(size_t &x) {
   if (check_num)
     this->PushStack(NUMBER, NUM, this->ReadNum(temp_num));
   this->PushStack(MOD, MEDIUM_PR, 0);
   x = 0;
 }
 
-void Model::add_token_cos(std::string &input, size_t &position) {
+void s21::Model::add_token_cos(std::string &input, size_t &position) {
   if (input[position + 1] == 'o' ? input[position + 2] == 's' ? 1 : 0 : 0) {
     position += 2;
     this->PushStack(COS, HIGH_PR, 0);
@@ -272,21 +301,21 @@ void Model::add_token_cos(std::string &input, size_t &position) {
   }
 }
 
-void Model::add_token_sin(std::string &input, size_t &position) {
+void s21::Model::add_token_sin(std::string &input, size_t &position) {
   if (input[position + 1] == 'i' ? input[position + 2] == 'n' ? 1 : 0 : 0) {
     position += 2;
     this->PushStack(SIN, HIGH_PR, 0);
   }
 }
 
-void Model::add_token_tan(std::string &input, size_t &position) {
+void s21::Model::add_token_tan(std::string &input, size_t &position) {
   if (input[position + 1] == 'a' ? input[position + 2] == 'n' ? 1 : 0 : 0) {
     position += 2;
     this->PushStack(TAN, HIGH_PR, 0);
   }
 }
 
-void Model::add_token_acos(std::string &input, size_t &position) {
+void s21::Model::add_token_acos(std::string &input, size_t &position) {
   if (input[position + 1] == 'c'
           ? input[position + 2] == 'o' ? input[position + 3] == 's' ? 1 : 0 : 0
           : 0) {
@@ -295,7 +324,7 @@ void Model::add_token_acos(std::string &input, size_t &position) {
   }
 }
 
-void Model::add_token_asin(std::string &input, size_t &position) {
+void s21::Model::add_token_asin(std::string &input, size_t &position) {
   if (input[position + 1] == 's'
           ? input[position + 2] == 'i' ? input[position + 3] == 'n' ? 1 : 0 : 0
           : 0) {
@@ -304,7 +333,7 @@ void Model::add_token_asin(std::string &input, size_t &position) {
   }
 }
 
-void Model::add_token_atan(std::string &input, size_t &position) {
+void s21::Model::add_token_atan(std::string &input, size_t &position) {
   if (input[position + 1] == 't'
           ? input[position + 2] == 'a' ? input[position + 3] == 'n' ? 1 : 0 : 0
           : 0) {
@@ -313,7 +342,7 @@ void Model::add_token_atan(std::string &input, size_t &position) {
   }
 }
 
-void Model::add_token_sqrt(std::string &input, size_t &position) {
+void s21::Model::add_token_sqrt(std::string &input, size_t &position) {
   if (input[position + 1] == 'q'
           ? input[position + 2] == 'r' ? input[position + 3] == 't' ? 1 : 0 : 0
           : 0) {
@@ -322,23 +351,23 @@ void Model::add_token_sqrt(std::string &input, size_t &position) {
   }
 }
 
-void Model::add_token_ln(std::string &input, size_t &position) {
+void s21::Model::add_token_ln(std::string &input, size_t &position) {
   if (input[position + 1] == 'n' ? 1 : 0) {
     position += 1;
     this->PushStack(LN, HIGH_PR, 0);
   }
 }
 
-void Model::add_token_log(std::string &input, size_t &position) {
+void s21::Model::add_token_log(std::string &input, size_t &position) {
   if (input[position + 1] == 'o' ? input[position + 2] == 'g' ? 1 : 0 : 0) {
     position += 2;
     this->PushStack(LOG, HIGH_PR, 0);
   }
 }
 
-void Model::add_token_left() { this->PushStack(LEFT, LLOW_PR, 0); }
+void s21::Model::add_token_left() { this->PushStack(LEFT, LLOW_PR, 0); }
 
-void Model::add_token_right(std::string &input, size_t &x) {
+void s21::Model::add_token_right(std::string &input, size_t &x) {
   if (check_num)
     this->PushStack(NUMBER, NUM, this->ReadNum(temp_num));
   this->PushStack(RIGHT, LLOW_PR, 0);
@@ -346,15 +375,15 @@ void Model::add_token_right(std::string &input, size_t &x) {
   x = 0;
 }
 
-void Model::add_number(std::string &input, size_t &x) {
+void s21::Model::add_number(std::string &input, size_t &x) {
   if (check_num)
     this->PushStack(NUMBER, NUM, this->ReadNum(temp_num));
   this->temp_num = new char[input.length()];
   x = 0;
 }
 
-void Model::read_number(std::string &input, size_t &x, size_t &position,
-                        double &in_x) {
+void s21::Model::read_number(std::string &input, size_t &x, size_t &position,
+                             double &in_x) {
   switch (input[position]) {
   case 'x':
     this->PushStack(NUMBER, NUM, in_x);
@@ -403,15 +432,23 @@ void Model::read_number(std::string &input, size_t &x, size_t &position,
     temp_num[x++] = input[position];
     check_num = true;
     break;
+  case 'e':
+    temp_num[x++] = input[position];
+    check_num = true;
+    break;
+  case 'E':
+    temp_num[x++] = input[position];
+    check_num = true;
+    break;
   default:
     this->add_number(input, x);
     break;
   }
 }
 
-double Model::calculation(list<list_calc> &head) {
+double s21::Model::calculation(list<list_calc> &head) {
   this->ReversStack();
-  Model temp;
+  s21::Model temp;
   this->reset();
   int count = 2;
   double b = 0;
@@ -462,7 +499,7 @@ double Model::calculation(list<list_calc> &head) {
   return data;
 }
 
-double Model::arichmetics(double b, int sumbol) {
+double s21::Model::arichmetics(double b, int sumbol) {
   if (sumbol == PLUS) {
     this->add(b);
   }
@@ -484,7 +521,7 @@ double Model::arichmetics(double b, int sumbol) {
   return data;
 }
 
-double Model::triganimetric(double a, int sumbol) {
+double s21::Model::triganimetric(double a, int sumbol) {
   if (sumbol == COS) {
     this->cos(a);
   }

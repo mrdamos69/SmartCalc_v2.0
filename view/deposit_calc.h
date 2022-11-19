@@ -11,6 +11,8 @@ namespace Ui {
 class deposit_calc;
 }
 
+namespace s21 {
+
 class deposit_calc : public QDialog {
   Q_OBJECT
 
@@ -32,6 +34,7 @@ class deposit_calc : public QDialog {
   int rows = 0;
   int rows_2 = 0;
   QVector<std::pair<QDateTime, double>> add_sub_money;
+  s21::Controller contr_deposit;
 
   void refresh();
 
@@ -43,5 +46,7 @@ class deposit_calc : public QDialog {
   void signal_check(bool);
   void signal_add_sub_money(QVector<std::pair<QDateTime, double>>);
 };
+
+}  // namespace s21
 
 #endif  // DEPOSIT_CALC_H

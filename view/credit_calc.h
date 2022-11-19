@@ -9,6 +9,8 @@ namespace Ui {
 class credit_calc;
 }
 
+namespace s21 {
+
 class credit_calc : public QDialog {
   Q_OBJECT
 
@@ -36,5 +38,7 @@ class credit_calc : public QDialog {
   void signal_data_credit(QDateTime);
   void signal_check(bool);
 };
+
+}  // namespace s21
 
 #endif  // CREDIT_CALC_H

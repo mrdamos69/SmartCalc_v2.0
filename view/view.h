@@ -15,6 +15,8 @@ class View;
 }
 QT_END_NAMESPACE
 
+namespace s21 {
+
 class View : public QMainWindow {
   Q_OBJECT
 
@@ -53,14 +55,16 @@ class View : public QMainWindow {
 
  private:
   Ui::View *ui;
-  Graph *graph_func;
-  credit_calc *calc_dialog;
-  deposit_calc *deposit_dialog;
-  Controller contr_result;
+  s21::Graph *graph_func;
+  s21::credit_calc *calc_dialog;
+  s21::deposit_calc *deposit_dialog;
+  s21::Controller contr_result;
   bool clean_view;
 
  signals:
   void signal_text(QString);
   void signal_x(QString);
 };
+
+}  // namespace s21
 #endif  // VIEW_H

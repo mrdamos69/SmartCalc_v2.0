@@ -2,23 +2,29 @@
 
 #include "ui_credit_calc.h"
 
-credit_calc::credit_calc(QWidget *parent)
-    : QDialog(parent), ui(new Ui::credit_calc), this_annuetet(false) {
+s21::credit_calc::credit_calc(QWidget *parent)
+    : QDialog(parent),
+      ui(new Ui::credit_calc),
+      this_annuetet(false),
+      new_table(nullptr) {
   ui->setupUi(this);
   connect(ui->horizontalSlider, QSlider::valueChanged, this,
           credit_calc::on_horizontalSlider_actionTriggered);
 }
 
-credit_calc::~credit_calc() {
-  delete new_table;
+s21::credit_calc::~credit_calc() {
+  if (new_table != nullptr) {
+    delete new_table;
+    new_table = nullptr;
+  }
   delete ui;
 }
 
-void credit_calc::on_horizontalSlider_actionTriggered(int action) {
+void s21::credit_calc::on_horizontalSlider_actionTriggered(int action) {
   ui->spinBox->setValue(action);
 }
 
-void credit_calc::on_pushButton_clicked() {
+void s21::credit_calc::on_pushButton_clicked() {
   this->refresh();
   emit signal_all_sum(ui->spinBox->value());
   emit signal_procent(ui->doubleSpinBox->value());
@@ -29,18 +35,21 @@ void credit_calc::on_pushButton_clicked() {
   new_table->show();
 }
 
-void credit_calc::on_differenc_calc_clicked(bool check) {
+void s21::credit_calc::on_differenc_calc_clicked(bool check) {
   if (check) this->this_annuetet = false;
   this->refresh();
 }
 
-void credit_calc::on_annyitet_calc_clicked(bool check) {
+void s21::credit_calc::on_annyitet_calc_clicked(bool check) {
   if (check) this->this_annuetet = true;
   this->refresh();
 }
 
-void credit_calc::refresh() {
-  if (new_table == nullptr) delete new_table;
+void s21::credit_calc::refresh() {
+  if (new_table != nullptr) {
+    delete new_table;
+    new_table = nullptr;
+  }
   new_table = new table;
   connect(this, &credit_calc::signal_all_sum, new_table, &table::slot_all_sum);
   connect(this, &credit_calc::signal_procent, new_table, &table::slot_procent);

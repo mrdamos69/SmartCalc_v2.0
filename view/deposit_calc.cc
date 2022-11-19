@@ -2,8 +2,8 @@
 
 #include "ui_deposit_calc.h"
 
-deposit_calc::deposit_calc(QWidget *parent)
-    : QDialog(parent), ui(new Ui::deposit_calc) {
+s21::deposit_calc::deposit_calc(QWidget *parent)
+    : QDialog(parent), ui(new Ui::deposit_calc), new_table(nullptr) {
   ui->setupUi(this);
 
   ui->tableWidget->setRowCount(0);
@@ -26,13 +26,19 @@ deposit_calc::deposit_calc(QWidget *parent)
           deposit_calc ::on_horizontalSlider_actionTriggered);
 }
 
-deposit_calc::~deposit_calc() { delete ui; }
+s21::deposit_calc::~deposit_calc() {
+  if (new_table != nullptr) {
+    delete new_table;
+    new_table = nullptr;
+  }
+  delete ui;
+}
 
-void deposit_calc::on_horizontalSlider_actionTriggered(int action) {
+void s21::deposit_calc::on_horizontalSlider_actionTriggered(int action) {
   ui->spinBox_sum->setValue(action);
 }
 
-void deposit_calc::on_add_money_clicked() {
+void s21::deposit_calc::on_add_money_clicked() {
   QTableWidgetItem *item =
       new QTableWidgetItem(QString::number(ui->spinBox_add->value()));
   QTableWidgetItem *item_2 =
@@ -40,18 +46,18 @@ void deposit_calc::on_add_money_clicked() {
   ui->tableWidget->setRowCount(++rows);
   ui->tableWidget->setItem(this->rows - 1, 1, item);
   ui->tableWidget->setItem(this->rows - 1, 0, item_2);
-  add_sub_money.push_front(std::pair<QDateTime, double>(
-      ui->dateEdit_add->dateTime(), ui->spinBox_add->value()));
+  this->contr_deposit.push_line_table(
+      add_sub_money, ui->dateEdit_sub->dateTime(), ui->spinBox_sub->value());
 }
 
-void deposit_calc::on_sub_money_clicked() {
+void s21::deposit_calc::on_sub_money_clicked() {
   if (rows > 0) {
     ui->tableWidget->setRowCount(--rows);
     add_sub_money.pop_front();
   }
 }
 
-void deposit_calc::on_add_money_2_clicked() {
+void s21::deposit_calc::on_add_money_2_clicked() {
   double buffer = 0;
   for (auto value : add_sub_money) {
     if (value.second < 0) buffer -= value.second;
@@ -64,19 +70,20 @@ void deposit_calc::on_add_money_2_clicked() {
     ui->tableWidget_2->setRowCount(++rows_2);
     ui->tableWidget_2->setItem(this->rows_2 - 1, 1, item);
     ui->tableWidget_2->setItem(this->rows_2 - 1, 0, item_2);
-    add_sub_money.push_front(std::pair<QDateTime, double>(
-        ui->dateEdit_sub->dateTime(), ui->spinBox_sub->value() * (-1)));
+    this->contr_deposit.push_line_table(add_sub_money,
+                                        ui->dateEdit_sub->dateTime(),
+                                        ui->spinBox_sub->value() * (-1));
   }
 }
 
-void deposit_calc::on_sub_money_2_clicked() {
+void s21::deposit_calc::on_sub_money_2_clicked() {
   if (rows_2 > 0) {
     ui->tableWidget_2->setRowCount(--rows_2);
     add_sub_money.pop_front();
   }
 }
 
-void deposit_calc::on_pushButton_clicked() {
+void s21::deposit_calc::on_pushButton_clicked() {
   this->refresh();
   emit signal_all_sum(ui->spinBox_sum->value());
   emit signal_procent(ui->doubleSpinBox->value());
@@ -88,8 +95,11 @@ void deposit_calc::on_pushButton_clicked() {
   new_table->show();
 }
 
-void deposit_calc::refresh() {
-  if (new_table == nullptr) delete new_table;
+void s21::deposit_calc::refresh() {
+  if (new_table != nullptr) {
+    delete new_table;
+    new_table = nullptr;
+  }
   new_table = new table;
   connect(this, &deposit_calc::signal_all_sum, new_table, &table::slot_all_sum);
   connect(this, &deposit_calc::signal_procent, new_table, &table::slot_procent);

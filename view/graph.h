@@ -9,6 +9,8 @@ namespace Ui {
 class Graph;
 }
 
+namespace s21 {
+
 class Graph : public QDialog {
   Q_OBJECT
 
@@ -19,21 +21,16 @@ class Graph : public QDialog {
 
  private:
   Ui::Graph *ui;
-  Controller contr_result;
+  s21::Controller contr_result;
   QString text;
   QString view_x;
-  double xBegin, xEnd, h, X, xy_1, xy_2, result_1, result_2;
-  int N;
-  QVector<double> x, y;
+  double xBegin, xEnd, X, h;
 
  public slots:
   void slot_text(QString text_calc);
   void slot_x(QString text_x);
- private slots:
-  void on_spin_xy_1_valueChanged();
-  void on_spin_xy_2_valueChanged();
-  void on_spin_result_1_valueChanged();
-  void on_spin_result_2_valueChanged();
 };
+
+}  // namespace s21
 
 #endif  // GRAPH_H

@@ -41,12 +41,14 @@ typedef enum {
   LLOW_PR = -1
 } type_priority;
 
+namespace s21 {
+
 class list_calc {
 public:
   list_calc(type_act act, type_priority priority, double data)
       : prt(priority), num(data), type(act) {}
   type_priority prt;
-  double num;
+  double num = 0;
   type_act type;
 };
 
@@ -60,8 +62,9 @@ private:
   bool check_num = false;
 
 public:
-  Model() : data(0){};
+  Model() : data(0), temp_num(nullptr), check_num(false){};
   Model(Model &value);
+
   void add(double a);
   void sub(double a);
   void div(double a);
@@ -80,7 +83,7 @@ public:
   void reset();
   double getData();
   list<list_calc> getStack();
-  double ScanLineEdit(string inpu, double in_x);
+  double ScanLineEdit(string input, double in_x);
 
   void add_token_plus(string &input, size_t &x, size_t &position);
   void add_token_sub(string &input, size_t &x, size_t &position);
@@ -109,21 +112,32 @@ public:
   double anuitet_calc(double &sum_credit, double &procent, int &size,
                       double &month_sum, double &month_procent,
                       double &remains);
+
   double diferic_calc(double &sum_credit, double &procent, int &size,
                       double &month_sum, double &month_procent,
                       double &remains);
+
   double deposit_calc(QVector<std::pair<QDateTime, double>> &add_sub_money,
                       QDateTime &data, double &procent, double &month_procent,
                       double &profit);
+
+  QVector<std::pair<QDateTime, double>>
+  push_line_table(QVector<std::pair<QDateTime, double>> &input_arr,
+                  QDateTime date, double value);
+
+  std::pair<QVector<double>, QVector<double>>
+  print_graph(double &xBegin, double &xEnd, QString &input);
+
   void all_prifit(double &profit, double &procent_money);
 
   void ReversStack();
   void SortStation();
   void add_temp_stack(Model &temp, Model &result);
-
   double calculation(list<list_calc> &head);
   double arichmetics(double b, int sumbol);
   double triganimetric(double a, int sumbol);
 };
+
+} // namespace s21
 
 #endif

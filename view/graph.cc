@@ -2,45 +2,40 @@
 
 #include "ui_graph.h"
 
-Graph::Graph(QWidget* parent) : QDialog(parent), ui(new Ui::Graph) {
+s21::Graph::Graph(QWidget* parent)
+    : QDialog(parent), ui(new Ui::Graph), xBegin(0), xEnd(0), h(0.1) {
   ui->setupUi(this);
 }
 
-void Graph::slot_text(QString text_calc) { this->text = text_calc; }
+s21::Graph::~Graph() { delete ui; }
 
-void Graph::slot_x(QString text_x) { this->view_x = text_x; }
+void s21::Graph::slot_text(QString text_calc) { this->text = text_calc; }
 
-void Graph::print_graph() {
-  QByteArray ba = text.toLocal8Bit();
-  char* buf = ba.data();
+void s21::Graph::slot_x(QString text_x) { this->view_x = text_x; }
+
+void s21::Graph::print_graph() {
   ui->widget->clearGraphs();
-  x.clear();
-  y.clear();
   xBegin = xEnd = 0;
-  h = 0.1;
+  ui->widget->xAxis->setRange(ui->spin_x_begin->text().toDouble(),
+                              ui->spin_x_end->text().toDouble());
+  ui->widget->yAxis->setRange(ui->spin_y_begin->text().toDouble(),
+                              ui->spin_y_end->text().toDouble());
 
-  xBegin = ui->spin_result_2->text().toInt();
-  xEnd = ui->spin_result_1->text().toInt() + h;
-
-  ui->widget->xAxis->setRange(ui->spin_xy_2->text().toDouble(),
-                              ui->spin_xy_1->text().toDouble());
-  ui->widget->yAxis->setRange(ui->spin_xy_2->text().toDouble(),
-                              ui->spin_xy_1->text().toDouble());
-  N = (xEnd - xBegin) / h + 2;
-
-  for (X = xBegin; X <= xEnd; X += h) {
-    x.push_back(X);
-    y.push_back(contr_result.input_calc(buf, X));
+  if (view_x == "") {
+    xBegin = ui->spin_y_begin->text().toInt();
+    xEnd = ui->spin_y_end->text().toInt() + h;
+  } else {
+    xBegin = std::abs(view_x.toDouble());
+    xEnd = view_x.toDouble() + h;
+    ui->widget->xAxis->setRange(xBegin, xEnd);
+    ui->widget->yAxis->setRange(xBegin, xEnd);
+    ui->spin_x_begin->setValue(xBegin);
+    ui->spin_x_end->setValue(xEnd);
   }
 
+  auto coordinates = contr_result.print_graph(xBegin, xEnd, text);
+
   ui->widget->addGraph();
-  ui->widget->graph(0)->addData(x, y);
+  ui->widget->graph(0)->addData(coordinates.first, coordinates.second);
   ui->widget->replot();
 }
-
-Graph::~Graph() { delete ui; }
-
-void Graph::on_spin_xy_1_valueChanged() { this->print_graph(); }
-void Graph::on_spin_xy_2_valueChanged() { this->print_graph(); }
-void Graph::on_spin_result_1_valueChanged() { this->print_graph(); }
-void Graph::on_spin_result_2_valueChanged() { this->print_graph(); }

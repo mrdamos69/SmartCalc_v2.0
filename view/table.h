@@ -12,6 +12,8 @@ namespace Ui {
 class table;
 }
 
+namespace s21 {
+
 class table : public QDialog {
   Q_OBJECT
 
@@ -22,6 +24,7 @@ class table : public QDialog {
   void anuitet_calc();
   void deposit_calc();
   void diferic_calc();
+  void result();
   void add_table(double result, double mec_sum, double mec_procent,
                  double remains);
 
@@ -29,12 +32,12 @@ class table : public QDialog {
   Ui::table *ui;
   QString data;
   QTableWidgetItem *item, *item_1, *item_2, *item_3, *item_4;
+  QVector<std::pair<QDateTime, double>> add_sub_money;
+  QDateTime data_time;
+  s21::Controller contr_table;
   double sum_credit, procent;
   int size, count;
   bool check, check_deposit;
-  QVector<std::pair<QDateTime, double>> add_sub_money;
-  QDateTime data_time;
-  Controller contr_table;
 
  public slots:
   void slot_all_sum(double all_sum);
@@ -45,5 +48,7 @@ class table : public QDialog {
   void slot_check_deposit(bool check);
   void slot_add_sub_money(QVector<std::pair<QDateTime, double>> money);
 };
+
+}  // namespace s21
 
 #endif  // TABLE_H

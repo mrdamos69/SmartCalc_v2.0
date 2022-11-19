@@ -10,6 +10,24 @@
     <height>456</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>630</width>
+    <height>456</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>630</width>
+    <height>630</height>
+   </size>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>630</width>
+    <height>456</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Deposit_calc</string>
   </property>

@@ -81,11 +81,10 @@ void s21::table::deposit_calc() {
 void s21::table::slot_all_sum(double all_sum) { this->sum_credit = all_sum; }
 void s21::table::slot_procent(double procent) { this->procent = procent; }
 void s21::table::slot_size_credit(int size_credit) { this->size = size_credit; }
-void s21::table::slot_data_credit(QDateTime data) { this->data_time = data; }
+void s21::table::slot_data_credit(QDate data) { this->data_time = data; }
 void s21::table::slot_check(bool check) { this->check = check; }
 void s21::table::slot_check_deposit(bool check) { this->check_deposit = check; }
-void s21::table::slot_add_sub_money(
-    QVector<std::pair<QDateTime, double>> money) {
+void s21::table::slot_add_sub_money(QVector<std::pair<QDate, double>> money) {
   this->add_sub_money = money;
 }
 

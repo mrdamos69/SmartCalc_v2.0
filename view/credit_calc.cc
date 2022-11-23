@@ -3,13 +3,8 @@
 #include "ui_credit_calc.h"
 
 s21::credit_calc::credit_calc(QWidget *parent)
-    : QDialog(parent),
-      ui(new Ui::credit_calc),
-      this_annuetet(false),
-      new_table(nullptr) {
+    : QDialog(parent), ui(new Ui::credit_calc), new_table(nullptr) {
   ui->setupUi(this);
-  connect(ui->horizontalSlider, QSlider::valueChanged, this,
-          credit_calc::on_horizontalSlider_actionTriggered);
 }
 
 s21::credit_calc::~credit_calc() {
@@ -29,7 +24,7 @@ void s21::credit_calc::on_pushButton_clicked() {
   emit signal_all_sum(ui->spinBox->value());
   emit signal_procent(ui->doubleSpinBox->value());
   emit signal_size_credit((ui->comboBox->currentIndex() + 1) * 12);
-  emit signal_data_credit(ui->dateEdit->dateTime());
+  emit signal_data_credit(ui->dateEdit->date());
   emit signal_check(this_annuetet);
   new_table->check_calc();
   new_table->show();
@@ -58,4 +53,8 @@ void s21::credit_calc::refresh() {
   connect(this, &credit_calc::signal_data_credit, new_table,
           &table::slot_data_credit);
   connect(this, &credit_calc::signal_check, new_table, &table::slot_check);
+}
+
+void s21::credit_calc::on_horizontalSlider_valueChanged(int value) {
+  ui->spinBox->setValue(value + 10000);
 }

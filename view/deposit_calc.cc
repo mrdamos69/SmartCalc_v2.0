@@ -21,9 +21,6 @@ s21::deposit_calc::deposit_calc(QWidget *parent)
                                                << "Сумма списания");
   ui->tableWidget_2->setColumnWidth(0, 115);
   ui->tableWidget_2->setColumnWidth(1, 135);
-
-  connect(ui->horizontalSlider, QSlider::valueChanged, this,
-          deposit_calc ::on_horizontalSlider_actionTriggered);
 }
 
 s21::deposit_calc::~deposit_calc() {
@@ -46,8 +43,8 @@ void s21::deposit_calc::on_add_money_clicked() {
   ui->tableWidget->setRowCount(++rows);
   ui->tableWidget->setItem(this->rows - 1, 1, item);
   ui->tableWidget->setItem(this->rows - 1, 0, item_2);
-  this->contr_deposit.push_line_table(
-      add_sub_money, ui->dateEdit_sub->dateTime(), ui->spinBox_sub->value());
+  this->contr_deposit.push_line_table(add_sub_money, ui->dateEdit_sub->date(),
+                                      ui->spinBox_sub->value());
 }
 
 void s21::deposit_calc::on_sub_money_clicked() {
@@ -70,8 +67,7 @@ void s21::deposit_calc::on_add_money_2_clicked() {
     ui->tableWidget_2->setRowCount(++rows_2);
     ui->tableWidget_2->setItem(this->rows_2 - 1, 1, item);
     ui->tableWidget_2->setItem(this->rows_2 - 1, 0, item_2);
-    this->contr_deposit.push_line_table(add_sub_money,
-                                        ui->dateEdit_sub->dateTime(),
+    this->contr_deposit.push_line_table(add_sub_money, ui->dateEdit_sub->date(),
                                         ui->spinBox_sub->value() * (-1));
   }
 }
@@ -88,7 +84,7 @@ void s21::deposit_calc::on_pushButton_clicked() {
   emit signal_all_sum(ui->spinBox_sum->value());
   emit signal_procent(ui->doubleSpinBox->value());
   emit signal_size((ui->comboBox->currentIndex() + 1) * 12);
-  emit signal_data(ui->dateEdit->dateTime());
+  emit signal_data(ui->dateEdit->date());
   emit signal_check(true);
   emit signal_add_sub_money(add_sub_money);
   new_table->check_calc();
@@ -111,4 +107,8 @@ void s21::deposit_calc::refresh() {
           &table::slot_check_deposit);
   connect(this, &deposit_calc::signal_add_sub_money, new_table,
           &table::slot_add_sub_money);
+}
+
+void s21::deposit_calc::on_horizontalSlider_valueChanged(int value) {
+  ui->spinBox_sum->setValue(value + 10000);
 }

@@ -1,9 +1,9 @@
 #ifndef CREDIT_CALC_H
 #define CREDIT_CALC_H
 
-#include <table.h>
-
 #include <QDialog>
+
+#include "table.h"
 
 namespace Ui {
 class credit_calc;
@@ -24,6 +24,8 @@ class credit_calc : public QDialog {
   void on_differenc_calc_clicked(bool check);
   void on_annyitet_calc_clicked(bool check);
 
+  void on_horizontalSlider_valueChanged(int value);
+
  private:
   Ui::credit_calc *ui;
   table *new_table;
@@ -35,7 +37,7 @@ class credit_calc : public QDialog {
   void signal_all_sum(double);
   void signal_procent(double);
   void signal_size_credit(int);
-  void signal_data_credit(QDateTime);
+  void signal_data_credit(QDate);
   void signal_check(bool);
 };
 

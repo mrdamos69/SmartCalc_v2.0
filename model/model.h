@@ -1,12 +1,11 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include <QDate>
 #include <cmath>
 #include <iostream>
 #include <list>
 #include <string>
-
-#include <QDateTime>
 
 using std::list;
 using std::string;
@@ -44,7 +43,7 @@ typedef enum {
 namespace s21 {
 
 class list_calc {
-public:
+ public:
   list_calc(type_act act, type_priority priority, double data)
       : prt(priority), num(data), type(act) {}
   type_priority prt;
@@ -53,17 +52,17 @@ public:
 };
 
 class Model {
-public:
+ public:
   list<list_calc> stack_calc;
 
-private:
+ private:
   double data;
   char *temp_num;
-  bool check_num = false;
+  bool check_num;
 
-public:
+ public:
   Model() : data(0), temp_num(nullptr), check_num(false){};
-  Model(Model &value);
+  Model(const Model &value);
 
   void add(double a);
   void sub(double a);
@@ -85,48 +84,48 @@ public:
   list<list_calc> getStack();
   double ScanLineEdit(string input, double in_x);
 
-  void add_token_plus(string &input, size_t &x, size_t &position);
-  void add_token_sub(string &input, size_t &x, size_t &position);
-  void add_token_div(std::string &input, size_t &x);
-  void add_token_mult(std::string &input, size_t &x);
-  void add_token_pow(std::string &input, size_t &x);
+  void add_token_plus(const string &input, size_t &x, const size_t &position);
+  void add_token_sub(const string &input, size_t &x, const size_t &position);
+  void add_token_div(size_t &x);
+  void add_token_mult(size_t &x);
+  void add_token_pow(size_t &x);
   void add_token_mod(size_t &x);
-  void add_token_cos(std::string &input, size_t &position);
-  void add_token_sin(std::string &input, size_t &position);
-  void add_token_tan(std::string &input, size_t &position);
-  void add_token_acos(std::string &input, size_t &position);
-  void add_token_asin(std::string &input, size_t &position);
-  void add_token_atan(std::string &input, size_t &position);
-  void add_token_sqrt(std::string &input, size_t &position);
-  void add_token_ln(std::string &input, size_t &position);
-  void add_token_log(std::string &input, size_t &position);
+  void add_token_cos(const std::string &input, size_t &position);
+  void add_token_sin(const std::string &input, size_t &position);
+  void add_token_tan(const std::string &input, size_t &position);
+  void add_token_acos(const std::string &input, size_t &position);
+  void add_token_asin(const std::string &input, size_t &position);
+  void add_token_atan(const std::string &input, size_t &position);
+  void add_token_sqrt(const std::string &input, size_t &position);
+  void add_token_ln(const std::string &input, size_t &position);
+  void add_token_log(const std::string &input, size_t &position);
   void add_token_left();
-  void add_token_right(std::string &input, size_t &x);
-  void add_number(std::string &input, size_t &x);
-  void read_number(std::string &input, size_t &x, size_t &position,
-                   double &in_x);
+  void add_token_right(size_t &x);
+  void add_number(size_t &x);
+  void read_number(const std::string &input, size_t &x, const size_t &position,
+                   const double &in_x);
 
   void PushStack(type_act act, type_priority priority, double data);
   double ReadNum(char *temp_str);
 
-  double anuitet_calc(double &sum_credit, double &procent, int &size,
-                      double &month_sum, double &month_procent,
+  double anuitet_calc(const double &sum_credit, const double &procent,
+                      const int &size, double &month_sum, double &month_procent,
                       double &remains);
 
-  double diferic_calc(double &sum_credit, double &procent, int &size,
-                      double &month_sum, double &month_procent,
+  double diferic_calc(const double &sum_credit, const double &procent,
+                      const int &size, double &month_sum, double &month_procent,
                       double &remains);
 
-  double deposit_calc(QVector<std::pair<QDateTime, double>> &add_sub_money,
-                      QDateTime &data, double &procent, double &month_procent,
-                      double &profit);
+  double deposit_calc(const QVector<std::pair<QDate, double>> &add_sub_money,
+                      const QDate &data, const double &procent,
+                      double &month_procent, double &profit);
 
-  QVector<std::pair<QDateTime, double>>
-  push_line_table(QVector<std::pair<QDateTime, double>> &input_arr,
-                  QDateTime date, double value);
+  QVector<std::pair<QDate, double>> push_line_table(
+      QVector<std::pair<QDate, double>> &input_arr, QDate date, double value);
 
-  std::pair<QVector<double>, QVector<double>>
-  print_graph(double &xBegin, double &xEnd, QString &input);
+  std::pair<QVector<double>, QVector<double>> print_graph(const double &xBegin,
+                                                          const double &xEnd,
+                                                          QString &input);
 
   void all_prifit(double &profit, double &procent_money);
 
@@ -138,6 +137,6 @@ public:
   double triganimetric(double a, int sumbol);
 };
 
-} // namespace s21
+}  // namespace s21
 
 #endif

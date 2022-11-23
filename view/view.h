@@ -1,13 +1,12 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include <credit_calc.h>
-#include <deposit_calc.h>
-#include <graph.h>
-
 #include <QMainWindow>
 
 #include "../controller/controller.h"
+#include "credit_calc.h"
+#include "deposit_calc.h"
+#include "graph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

@@ -29,6 +29,10 @@ class Graph : public QDialog {
  public slots:
   void slot_text(QString text_calc);
   void slot_x(QString text_x);
+
+ private slots:
+  void on_spin_x_begin_valueChanged();
+  void on_spin_x_end_valueChanged();
 };
 
 }  // namespace s21

@@ -11,7 +11,7 @@ CONFIG += c++17
 SOURCES += \
     ../controller/controller.cc \
     ../model/model.cc \
-    ../qcustomplot/qcustomplot.cc \
+    qcustomplot.cc \
     credit_calc.cc \
     deposit_calc.cc \
     graph.cc \
@@ -22,7 +22,7 @@ SOURCES += \
 HEADERS += \
     ../controller/controller.h \
     ../model/model.h \
-    ../qcustomplot/qcustomplot.h \
+    qcustomplot.h \
     credit_calc.h \
     deposit_calc.h \
     graph.h \

@@ -19,11 +19,11 @@ namespace s21 {
 class View : public QMainWindow {
   Q_OBJECT
 
- public:
+public:
   View(QWidget *parent = nullptr);
   ~View();
 
- private slots:
+private slots:
   void digits_numbers();
   void digits_operations();
   void clean_result();
@@ -52,7 +52,7 @@ class View : public QMainWindow {
   void on_pushButton_credit_calc_clicked();
   void on_pushButton_deposit_calc_clicked();
 
- private:
+private:
   Ui::View *ui;
   s21::Graph *graph_func;
   s21::credit_calc *calc_dialog;
@@ -60,10 +60,10 @@ class View : public QMainWindow {
   s21::Controller contr_result;
   bool clean_view;
 
- signals:
+signals:
   void signal_text(QString);
   void signal_x(QString);
 };
 
-}  // namespace s21
-#endif  // VIEW_H
+} // namespace s21
+#endif // VIEW_H

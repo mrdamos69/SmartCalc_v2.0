@@ -1,6 +1,7 @@
 #ifndef TABLE_H
 #define TABLE_H
 
+#include <QDate>
 #include <QDialog>
 #include <QTableWidgetItem>
 #include <cmath>
@@ -16,7 +17,7 @@ namespace s21 {
 class table : public QDialog {
   Q_OBJECT
 
- public:
+public:
   explicit table(QWidget *parent = nullptr);
   ~table();
   void check_calc();
@@ -27,7 +28,7 @@ class table : public QDialog {
   void add_table(double result, double mec_sum, double mec_procent,
                  double remains);
 
- private:
+private:
   Ui::table *ui;
   QString data;
   QTableWidgetItem *item, *item_1, *item_2, *item_3, *item_4;
@@ -38,7 +39,7 @@ class table : public QDialog {
   int size, count;
   bool check, check_deposit;
 
- public slots:
+public slots:
   void slot_all_sum(double all_sum);
   void slot_procent(double procent);
   void slot_size_credit(int size_credit);
@@ -48,6 +49,6 @@ class table : public QDialog {
   void slot_add_sub_money(QVector<std::pair<QDate, double>> money);
 };
 
-}  // namespace s21
+} // namespace s21
 
-#endif  // TABLE_H
+#endif // TABLE_H

@@ -1,11 +1,11 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include <QDate>
 #include <cmath>
 #include <iostream>
 #include <list>
 #include <string>
+#include <vector>
 
 using std::list;
 using std::string;
@@ -43,7 +43,7 @@ typedef enum {
 namespace s21 {
 
 class list_calc {
- public:
+public:
   list_calc(type_act act, type_priority priority, double data)
       : prt(priority), num(data), type(act) {}
   type_priority prt;
@@ -52,16 +52,16 @@ class list_calc {
 };
 
 class Model {
- public:
+public:
   list<list_calc> stack_calc;
 
- private:
+private:
   double data;
-  char *temp_num;
+  string temp_num;
   bool check_num;
 
- public:
-  Model() : data(0), temp_num(nullptr), check_num(false){};
+public:
+  Model() : data(0), temp_num(""), check_num(false){};
   Model(const Model &value);
 
   void add(double a);
@@ -106,7 +106,7 @@ class Model {
                    const double &in_x);
 
   void PushStack(type_act act, type_priority priority, double data);
-  double ReadNum(char *temp_str);
+  double ReadNum();
 
   double anuitet_calc(const double &sum_credit, const double &procent,
                       const int &size, double &month_sum, double &month_procent,
@@ -116,19 +116,12 @@ class Model {
                       const int &size, double &month_sum, double &month_procent,
                       double &remains);
 
-  double deposit_calc(const QVector<std::pair<QDate, double>> &add_sub_money,
-                      const QDate &data, const double &procent,
-                      double &month_procent, double &profit);
-
-  QVector<std::pair<QDate, double>> push_line_table(
-      QVector<std::pair<QDate, double>> &input_arr, QDate date, double value);
-
-  std::pair<QVector<double>, QVector<double>> print_graph(const double &xBegin,
-                                                          const double &xEnd,
-                                                          QString &input);
+  double
+  deposit_calc(const std::vector<std::pair<std::string, double>> &add_sub_money,
+               const std::string &data, const double &procent,
+               double &month_procent, double &profit);
 
   void all_prifit(double &profit, double &procent_money);
-
   void ReversStack();
   void SortStation();
   void add_temp_stack(Model &temp, Model &result);
@@ -137,6 +130,6 @@ class Model {
   double triganimetric(double a, int sumbol);
 };
 
-}  // namespace s21
+} // namespace s21
 
 #endif

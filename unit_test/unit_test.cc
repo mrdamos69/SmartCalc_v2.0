@@ -47,9 +47,8 @@ TEST(Test_s21_smart_calc, test_6) {
 
 TEST(Test_s21_smart_calc, test_7) {
   s21::Model test;
-  string input =
-      "cos(15/(7-(1+1))*3-(2+(1+1-1+1*2/2))+15/"
-      "(7-(1+1))*3-(2+(1+1+1-1*2/2)))-1";
+  string input = "cos(15/(7-(1+1))*3-(2+(1+1-1+1*2/2))+15/"
+                 "(7-(1+1))*3-(2+(1+1+1-1*2/2)))-1";
   double result = test.ScanLineEdit(input, 0);
   ASSERT_DOUBLE_EQ(result, -1.8390715290764525);
 }
@@ -153,10 +152,10 @@ TEST(Test_s21_smart_calc, test_20) {
 }
 
 TEST(Test_s21_smart_calc, test_21) {
-    s21::Model test;
-    string input = "2^2^3";
-    double result = test.ScanLineEdit(input, 0);
-    ASSERT_EQ(result, 256);
+  s21::Model test;
+  string input = "2^2^3";
+  double result = test.ScanLineEdit(input, 0);
+  ASSERT_EQ(result, 256);
 }
 
 TEST(Test_s21_smart_calc, test_22) {

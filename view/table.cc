@@ -70,8 +70,10 @@ void s21::table::deposit_calc() {
   double result = 0, month_procent = 0, profit = sum_credit;
   for (int i = 0; i < size; i++, count++) {
     ui->tableWidget->setRowCount(count);
-    result = this->contr_table.deposit_calc(add_sub_money, data_time, procent,
-                                            month_procent, profit);
+    //    result = this->contr_table.deposit_calc(add_sub_money, data_time,
+    //    procent,
+    //                                            month_procent, profit);
+
     this->add_table(result, profit - month_procent, month_procent, profit);
     this->contr_table.all_prifit(profit, result);
   }

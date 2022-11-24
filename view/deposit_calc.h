@@ -17,11 +17,11 @@ namespace s21 {
 class deposit_calc : public QDialog {
   Q_OBJECT
 
- public:
+public:
   explicit deposit_calc(QWidget *parent = nullptr);
   ~deposit_calc();
 
- private slots:
+private slots:
   void on_horizontalSlider_actionTriggered(int action);
   void on_add_money_clicked();
   void on_sub_money_clicked();
@@ -31,7 +31,7 @@ class deposit_calc : public QDialog {
 
   void on_horizontalSlider_valueChanged(int value);
 
- private:
+private:
   Ui::deposit_calc *ui;
   table *new_table;
   int rows = 0;
@@ -41,7 +41,7 @@ class deposit_calc : public QDialog {
 
   void refresh();
 
- signals:
+signals:
   void signal_all_sum(double);
   void signal_procent(double);
   void signal_size(int);
@@ -50,6 +50,6 @@ class deposit_calc : public QDialog {
   void signal_add_sub_money(QVector<std::pair<QDate, double>>);
 };
 
-}  // namespace s21
+} // namespace s21
 
-#endif  // DEPOSIT_CALC_H
+#endif // DEPOSIT_CALC_H

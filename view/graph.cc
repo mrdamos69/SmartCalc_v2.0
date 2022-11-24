@@ -38,8 +38,8 @@ void s21::Graph::print_graph() {
   ui->widget->replot();
 }
 
-std::pair<QVector<double>, QVector<double>>
-s21::Graph::add_coordinates(const double &xBegin, const double &xEnd) {
+std::pair<QVector<double>, QVector<double>> s21::Graph::add_coordinates(
+    const double &xBegin, const double &xEnd) {
   QVector<double> x, y;
   for (double i = xBegin; i <= xEnd; i += 0.1) {
     x.push_back(i);

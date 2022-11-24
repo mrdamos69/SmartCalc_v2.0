@@ -45,7 +45,6 @@ uninstall:
 
 dvi:
 	open https://github.com/mrdamos69/SmartCalc_v2.0
-# python3 -m webbrowser https://github.com/mrdamos69/SmartCalc_v2.0
 
 dist:
 	rm -rf Archive_SmartCalc_v2.0/
@@ -73,8 +72,9 @@ leaks: test
 
 check:
 	@cp ../materials/linters/.clang-format ./
-	@clang-format -i $(ALL_FILE_CC) $(ALL_FILE_H)
-	@clang-format -n $(ALL_FILE_CC) $(ALL_FILE_H)
+	@cd view && clang-format -i ./*.cc ./*.h
+	@cd model && clang-format -i ./*.cc ./*.h
+	@cd controller && clang-format -i ./*.cc ./*.h
 	@rm -rf .clang-format
 
 cppcheck:

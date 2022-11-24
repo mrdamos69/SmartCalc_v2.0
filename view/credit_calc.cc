@@ -31,14 +31,12 @@ void s21::credit_calc::on_pushButton_clicked() {
 }
 
 void s21::credit_calc::on_differenc_calc_clicked(bool check) {
-  if (check)
-    this->this_annuetet = false;
+  if (check) this->this_annuetet = false;
   this->refresh();
 }
 
 void s21::credit_calc::on_annyitet_calc_clicked(bool check) {
-  if (check)
-    this->this_annuetet = true;
+  if (check) this->this_annuetet = true;
   this->refresh();
 }
 

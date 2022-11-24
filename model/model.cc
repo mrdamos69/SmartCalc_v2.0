@@ -62,7 +62,7 @@ double s21::Model::deposit_calc(
     const std::string &data, const double &procent, double &month_procent,
     double &profit) {
   double result = 0;
-  for (auto value : add_sub_money) {
+  for (auto &&value : add_sub_money) {
     if (value.first == data) {
       result += value.second;
     }
@@ -99,12 +99,12 @@ void s21::Model::SortStation() {
   while (!stack_calc.empty()) {
     int menu = stack_calc.back().prt;
     switch (menu) {
-    case 0:
-      result.PushStack(NUMBER, NUM, stack_calc.back().num);
-      break;
-    default:
-      this->add_temp_stack(temp, result);
-      break;
+      case 0:
+        result.PushStack(NUMBER, NUM, stack_calc.back().num);
+        break;
+      default:
+        this->add_temp_stack(temp, result);
+        break;
     }
     stack_calc.pop_back();
   }
@@ -139,10 +139,8 @@ void s21::Model::add_temp_stack(s21::Model &temp, s21::Model &result) {
       }
       temp.PushStack(stack_calc.back().type, stack_calc.back().prt, 0);
       if (result.stack_calc.back().type < COS) {
-        if (temp.stack_calc.back().type == RIGHT)
-          temp.stack_calc.pop_back();
-        if (temp.stack_calc.back().type == LEFT)
-          temp.stack_calc.pop_back();
+        if (temp.stack_calc.back().type == RIGHT) temp.stack_calc.pop_back();
+        if (temp.stack_calc.back().type == LEFT) temp.stack_calc.pop_back();
       }
     }
   } else {
@@ -153,52 +151,52 @@ void s21::Model::add_temp_stack(s21::Model &temp, s21::Model &result) {
 double s21::Model::ScanLineEdit(string input, double in_x) {
   for (size_t i = 0, x = 0; i < (input.length() + 1); i++) {
     switch (input[i]) {
-    case '+':
-      this->add_token_plus(input, x, i);
-      break;
-    case '-':
-      this->add_token_sub(input, x, i);
-      break;
-    case '*':
-      this->add_token_mult(x);
-      break;
-    case '/':
-      this->add_token_div(x);
-      break;
-    case '^':
-      this->add_token_pow(x);
-      break;
-    case 'm': // mod
-      this->add_token_mod(x);
-      break;
-    case 'c': // cos(x)
-      this->add_token_cos(input, i);
-      break;
-    case 's': // sin(x) // sqrt(x)
-      this->add_token_sin(input, i);
-      this->add_token_sqrt(input, i);
-      break;
-    case 't': // tan(x)
-      this->add_token_tan(input, i);
-      break;
-    case 'a': // acos(x) // asin(x) // atan(x)
-      this->add_token_acos(input, i);
-      this->add_token_asin(input, i);
-      this->add_token_atan(input, i);
-      break;
-    case 'l': // ln(x) // log(x)
-      this->add_token_ln(input, i);
-      this->add_token_log(input, i);
-      break;
-    case '(':
-      this->add_token_left();
-      break;
-    case ')':
-      this->add_token_right(x);
-      break;
-    default:
-      this->read_number(input, x, i, in_x);
-      break;
+      case '+':
+        this->add_token_plus(input, x, i);
+        break;
+      case '-':
+        this->add_token_sub(input, x, i);
+        break;
+      case '*':
+        this->add_token_mult(x);
+        break;
+      case '/':
+        this->add_token_div(x);
+        break;
+      case '^':
+        this->add_token_pow(x);
+        break;
+      case 'm':  // mod
+        this->add_token_mod(x);
+        break;
+      case 'c':  // cos(x)
+        this->add_token_cos(input, i);
+        break;
+      case 's':  // sin(x) // sqrt(x)
+        this->add_token_sin(input, i);
+        this->add_token_sqrt(input, i);
+        break;
+      case 't':  // tan(x)
+        this->add_token_tan(input, i);
+        break;
+      case 'a':  // acos(x) // asin(x) // atan(x)
+        this->add_token_acos(input, i);
+        this->add_token_asin(input, i);
+        this->add_token_atan(input, i);
+        break;
+      case 'l':  // ln(x) // log(x)
+        this->add_token_ln(input, i);
+        this->add_token_log(input, i);
+        break;
+      case '(':
+        this->add_token_left();
+        break;
+      case ')':
+        this->add_token_right(x);
+        break;
+      default:
+        this->read_number(input, x, i, in_x);
+        break;
     }
   }
   temp_num.resize(255);
@@ -214,8 +212,7 @@ void s21::Model::add_token_plus(const std::string &input, size_t &x,
     temp_num[x++] = input[position];
     check_num = true;
   } else {
-    if (check_num)
-      this->PushStack(NUMBER, NUM, this->ReadNum());
+    if (check_num) this->PushStack(NUMBER, NUM, this->ReadNum());
     this->PushStack(PLUS, LOW_PR, 0);
     x = 0;
   }
@@ -226,38 +223,33 @@ void s21::Model::add_token_sub(const std::string &input, size_t &x,
   if (input[position - 1] == '(') {
     temp_num[x++] = input[position];
   } else {
-    if (check_num)
-      this->PushStack(NUMBER, NUM, this->ReadNum());
+    if (check_num) this->PushStack(NUMBER, NUM, this->ReadNum());
     this->PushStack(MINUS, LOW_PR, 0);
     x = 0;
   }
 }
 
 void s21::Model::add_token_div(size_t &x) {
-  if (check_num)
-    this->PushStack(NUMBER, NUM, this->ReadNum());
+  if (check_num) this->PushStack(NUMBER, NUM, this->ReadNum());
   this->PushStack(DIV, MEDIUM_PR, 0);
   x = 0;
 }
 
 void s21::Model::add_token_mult(size_t &x) {
-  if (check_num)
-    this->PushStack(NUMBER, NUM, this->ReadNum());
+  if (check_num) this->PushStack(NUMBER, NUM, this->ReadNum());
   this->PushStack(MULT, MEDIUM_PR, 0);
   x = 0;
 }
 
 void s21::Model::add_token_pow(size_t &x) {
-  if (check_num)
-    this->PushStack(NUMBER, NUM, this->ReadNum());
+  if (check_num) this->PushStack(NUMBER, NUM, this->ReadNum());
   this->PushStack(POW, HIGH_PR, 0);
   ;
   x = 0;
 }
 
 void s21::Model::add_token_mod(size_t &x) {
-  if (check_num)
-    this->PushStack(NUMBER, NUM, this->ReadNum());
+  if (check_num) this->PushStack(NUMBER, NUM, this->ReadNum());
   this->PushStack(MOD, MEDIUM_PR, 0);
   x = 0;
 }
@@ -337,79 +329,77 @@ void s21::Model::add_token_log(const std::string &input, size_t &position) {
 void s21::Model::add_token_left() { this->PushStack(LEFT, LLOW_PR, 0); }
 
 void s21::Model::add_token_right(size_t &x) {
-  if (check_num)
-    this->PushStack(NUMBER, NUM, this->ReadNum());
+  if (check_num) this->PushStack(NUMBER, NUM, this->ReadNum());
   this->PushStack(RIGHT, LLOW_PR, 0);
   x = 0;
 }
 
 void s21::Model::add_number(size_t &x) {
-  if (check_num)
-    this->PushStack(NUMBER, NUM, this->ReadNum());
+  if (check_num) this->PushStack(NUMBER, NUM, this->ReadNum());
   x = 0;
 }
 
 void s21::Model::read_number(const std::string &input, size_t &x,
                              const size_t &position, const double &in_x) {
   switch (input[position]) {
-  case 'x':
-    this->PushStack(NUMBER, NUM, in_x);
-    break;
-  case '.':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case '0':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case '1':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case '2':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case '3':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case '4':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case '5':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case '6':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case '7':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case '8':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case '9':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case 'e':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  case 'E':
-    temp_num[x++] = input[position];
-    check_num = true;
-    break;
-  default:
-    this->add_number(x);
-    break;
+    case 'x':
+      this->PushStack(NUMBER, NUM, in_x);
+      break;
+    case '.':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case '0':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case '1':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case '2':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case '3':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case '4':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case '5':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case '6':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case '7':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case '8':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case '9':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case 'e':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    case 'E':
+      temp_num[x++] = input[position];
+      check_num = true;
+      break;
+    default:
+      this->add_number(x);
+      break;
   }
 }
 
@@ -428,15 +418,17 @@ double s21::Model::calculation(list<list_calc> &head) {
         b = temp.stack_calc.back().num;
         temp.stack_calc.pop_back();
         data = temp.stack_calc.back().num;
-        temp.stack_calc.pop_back();
+        if (!temp.stack_calc.empty()) temp.stack_calc.pop_back();
       }
       temp.PushStack(NUMBER, NUM, this->arichmetics(b, stack_calc.back().type));
     } else if ((stack_calc.back().prt > 0) && (stack_calc.back().type > MOD &&
                                                stack_calc.back().type < LEFT)) {
-      b = temp.stack_calc.back().num;
-      temp.stack_calc.pop_back();
-      temp.PushStack(NUMBER, NUM,
-                     this->triganimetric(b, stack_calc.back().type));
+      if (!temp.stack_calc.empty()) {
+        b = temp.stack_calc.back().num;
+        temp.stack_calc.pop_back();
+        temp.PushStack(NUMBER, NUM,
+                       this->triganimetric(b, stack_calc.back().type));
+      }
     }
     head.pop_back();
   }

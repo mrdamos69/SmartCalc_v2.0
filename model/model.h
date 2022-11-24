@@ -43,7 +43,7 @@ typedef enum {
 namespace s21 {
 
 class list_calc {
-public:
+ public:
   list_calc(type_act act, type_priority priority, double data)
       : prt(priority), num(data), type(act) {}
   type_priority prt;
@@ -52,15 +52,15 @@ public:
 };
 
 class Model {
-public:
+ public:
   list<list_calc> stack_calc;
 
-private:
+ private:
   double data;
   string temp_num;
   bool check_num;
 
-public:
+ public:
   Model() : data(0), temp_num(""), check_num(false){};
   Model(const Model &value);
 
@@ -116,10 +116,10 @@ public:
                       const int &size, double &month_sum, double &month_procent,
                       double &remains);
 
-  double
-  deposit_calc(const std::vector<std::pair<std::string, double>> &add_sub_money,
-               const std::string &data, const double &procent,
-               double &month_procent, double &profit);
+  double deposit_calc(
+      const std::vector<std::pair<std::string, double>> &add_sub_money,
+      const std::string &data, const double &procent, double &month_procent,
+      double &profit);
 
   void all_prifit(double &profit, double &procent_money);
   void ReversStack();
@@ -130,6 +130,6 @@ public:
   double triganimetric(double a, int sumbol);
 };
 
-} // namespace s21
+}  // namespace s21
 
 #endif

@@ -70,10 +70,9 @@ void s21::table::deposit_calc() {
   double result = 0, month_procent = 0, profit = sum_credit;
   for (int i = 0; i < size; i++, count++) {
     ui->tableWidget->setRowCount(count);
-    //    result = this->contr_table.deposit_calc(add_sub_money, data_time,
-    //    procent,
-    //                                            month_procent, profit);
-
+    string date = data_time.toString("MM.yyyy").toStdString();
+    result = this->contr_table.deposit_calc(add_sub_money, date, procent,
+                                            month_procent, profit);
     this->add_table(result, profit - month_procent, month_procent, profit);
     this->contr_table.all_prifit(profit, result);
   }
@@ -86,7 +85,8 @@ void s21::table::slot_size_credit(int size_credit) { this->size = size_credit; }
 void s21::table::slot_data_credit(QDate data) { this->data_time = data; }
 void s21::table::slot_check(bool check) { this->check = check; }
 void s21::table::slot_check_deposit(bool check) { this->check_deposit = check; }
-void s21::table::slot_add_sub_money(QVector<std::pair<QDate, double>> money) {
+void s21::table::slot_add_sub_money(
+    std::vector<std::pair<std::string, double>> money) {
   this->add_sub_money = money;
 }
 
@@ -104,4 +104,14 @@ void s21::table::add_table(double result, double mec_sum, double mec_procent,
   ui->tableWidget->setItem(count - 1, 3, item_3);
   ui->tableWidget->setItem(count - 1, 4, item_4);
   data_time = data_time.addMonths(1);
+}
+
+std::vector<std::pair<std::string, double>> s21::table::to_std_vector(
+    QVector<std::pair<QDate, double>> &add_sub_money) {
+  std::vector<std::pair<std::string, double>> result;
+  for (auto &&i : add_sub_money) {
+    result.push_back(std::pair<std::string, double>(
+        i.first.toString("MM.yyyy").toStdString(), i.second));
+  }
+  return result;
 }

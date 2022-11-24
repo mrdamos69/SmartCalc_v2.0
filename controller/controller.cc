@@ -22,7 +22,8 @@ double s21::Controller::diferic_calc(const double &sum_credit,
 
 double s21::Controller::deposit_calc(
     const std::vector<std::pair<std::string, double>> &add_sub_money,
-    std::string &data, double &procent, double &month_procent, double &profit) {
+    const std::string &data, const double &procent, double &month_procent,
+    double &profit) {
   return model.deposit_calc(add_sub_money, data, procent, month_procent,
                             profit);
 }

@@ -1,73 +1,75 @@
 # SmartCalc v2.0
 
-Реализация SmartCalc v2.0.
+Implementation of SmartCalc v2.0 in C++ with additional features such as arithmetic expressions, mathematical functions, variable "X" support, and graph plotting. The project is built using the MVC template and includes loan and deposit calculators.
 
 ![](misc/images/smart_calc.png)
 
 ## Introduction
 
-Данный проект я реализовал на языке программирования С++ в парадигме объектно-ориентированного программирования c использованием паттерна MVC. Помимо базовых арифметических операций, как плюс-минус и умножить-поделить. Калькулятор оснащен возможностью вычисления арифметических выражений с учетом приоритетов, а так же некоторыми математическими функциями (синус, косинус, логарифм и т.д.). Помимо вычисления выражений калькулятор поддерживает использование переменной "X" и построение графика соответствующей функции. В качестве дополнительных улучшений добавлены кредитный и депозитный калькулятор.
+This project is implemented in C++ with a focus on object-oriented programming using the MVC template. It includes basic arithmetic operations, mathematical functions, and features like variable "X" support and graph plotting. The addition of loan and deposit calculators enhances its functionality.
 
-## Part 1. Реализация SmartCalc v2.0
+## Part 1. Implementation of SmartCalc v2.0
 
-- Программа разработана на языке C++ стандарта C++17
-- Написание кода придерживаеться Google Style
-- Классы реализованы внутри пространства имен `s21`
-- Реализовано полное покрытие unit-тестами модулей, связанных с вычислением выражений, c помощью библиотеки GTest
-- Сборка программы настроена с помощью Makefile со стандартным набором целей для GNU-программ: all, install, uninstall, clean, dvi, dist, tests.
-- Реализация с графическим пользовательским интерфейсом, на базе фреймворка  Qt.
-- Программа реализована с использованием паттерна MVC
-- На вход программы могут подаваться как целые числа, так и вещественные числа, записанные и через точку, и в экспоненциальной форме записи
-- Вычисление производится после полного ввода вычисляемого выражения и нажатия на символ `=`
-- Вычисление произвольных скобочных арифметических выражений происходит в инфиксной нотации
-- Предусмотрено вычисление произвольных скобочных арифметических выражений в инфиксной нотации с подстановкой значения переменной _x_ в виде числа
-- Построение графика функции, заданной с помощью выражения в инфиксной нотации с переменной _x_  (с координатными осями, отметкой используемого масштаба и сеткой с адаптивным шагом)
-- Область определения и область значения функций ограничиваются от -1000000 до 1000000
-- Проверяемая точность дробной части - минимум 7 знаков после запятой
-- У пользователя есть возможность ввода до 255 символов
-- Скобочные арифметические выражения в инфиксной нотации поддерживают следующие арифметические операции и математические функции:
-    - **Арифметические операторы**:
-
-        | Название оператора | Инфиксная нотация <br /> (Классическая) | Префиксная нотация <br /> (Польская нотация) |  Постфиксная нотация <br /> (Обратная польская нотация) |
-        | ------ | ------ | ------ | ------ |
-        | Скобки | (a + b) | (+ a b) | a b + |
-        | Сложение | a + b | + a b | a b + |
-        | Вычитание | a - b | - a b | a b - |
-        | Умножение | a * b | * a b | a b * |
-        | Деление | a / b | / a b | a b \ |
-        | Возведение в степень | a ^ b | ^ a b | a b ^ |
-        | Остаток от деления | a mod b | mod a b | a b mod |
-        | Унарный плюс | +a | +a | a+ |
-        | Унарный минус | -a | -a | a- |
-
-    - **Функции**:
+- **Language:** C++ (C++17 standard).
+- **Coding Style:** Google Style.
+- **Namespace:** `s21`.
+- **Testing:** Full coverage with GTest library.
+- **Build System:** Makefile (all, install, remove, clean, etc.).
+  - **Installation Commands:**
+    ```bash
+    make all         # Build the entire project
+    make install     # Install the project
+    make uninstall   # Uninstall the project
+    make clean       # Clean the project files
+    make tests       # Run tests
+    ```
+- **GUI:** Implemented using the Qt framework.
+- **Design Pattern:** MVC.
+- **Input:** Supports integers, real numbers (dot or exponential notation).
+- **Calculation:** Triggered by entering "=" after completing the expression.
+- **Expression Handling:** Supports arbitrary parenthetical arithmetic expressions in infix notation.
+- **Graph Plotting:** Allows construction of graphical functions using expressions with "X" variables.
+- **Scope:** Values limited from -1000000 to 1000000.
+- **Accuracy:** Verified fractional part accuracy of at least 7 decimal places.
+- **Character Limit:** Users can input up to 255 characters.
+- **Arithmetic Operations:**
   
-        | Описание функции | Функция |   
-        | ---------------- | ------- |  
-        | Вычисляет косинус | cos(x) |   
-        | Вычисляет синус | sin(x) |  
-        | Вычисляет тангенс | tan(x) |  
-        | Вычисляет арккосинус | acos(x) | 
-        | Вычисляет арксинус | asin(x) | 
-        | Вычисляет арктангенс | atan(x) |
-        | Вычисляет квадратный корень | sqrt(x) |
-        | Вычисляет натуральный логарифм | ln(x) | 
-        | Вычисляет десятичный логарифм | log(x) |
+  | Operation | Infix | Prefix | Postfix |
+  | --------- | ----- | ------ | ------- |
+  | Parentheses | (a + b) | (+ a b) | a b + |
+  | Addition | a + b | + a b | a b + |
+  | Subtraction | a - b | - a b | a b - |
+  | Multiplication | a * b | * a b | a b * |
+  | Division | a / b | / a b | a b \ |
+  | Exponentiation | a^b | ^ a b | a b ^ |
+  | Remainder | mod b | mod a b | a b mod |
+  | Unary plus | +a | +a | a+ |
+  | Unary minus | -a | -a | a- |
 
-## Part 2. Кредитный калькулятор
+  **Functions:**
+  
+  | Function | Description |
+  | -------- | ----------- |
+  | cos(x) | Computes cosine |
+  | sin(x) | Computes sine |
+  | tan(x) | Computes tangent |
+  | acos(x) | Computes arc cosine |
+  | asin(x) | Computes arc sine |
+  | atan(x) | Computes arc tangent |
+  | sqrt(x) | Computes square root |
+  | ln(x) | Computes natural logarithm |
+  | log(x) | Computes common logarithm |
 
-Предусмотрен специальный режим "кредитный калькулятор" (за образец взяты сайты banki.ru и calcus.ru):
- - Вход: общая сумма кредита, срок, процентная ставка, тип (аннуитетный, дифференцированный)
- - Выход: ежемесячный платеж, переплата по кредиту, общая выплата
+## Part 2. Loan Calculator
 
+- **Input:** Total loan amount, term, interest rate, type (annuity, differentiated).
+- **Output:** Monthly payment, loan overpayment, total payments.
 
 ![](misc/images/credit_calc.png)
 
+## Part 3. Deposit Calculator
 
-## Part 3. Депозитный калькулятор
+- **Input:** Initial deposit, placement period, interest rate, payment frequency, interest capitalization, list of replenishments, list of partial withdrawals.
+- **Output:** Accrued interest, tax amount, deposit amount by the end.
 
-Предусмотреть специальный режим "калькулятор доходности вкладов" (за образец взяты сайты banki.ru и calcus.ru):
- - Вход: сумма вклада, срок размещения, процентная ставка, периодичность выплат, капитализация процентов, список пополнений, список частичных снятий
- - Выход: начисленные проценты, сумма на вкладе к концу срока
-
- ![](misc/images/deposit_calc.png)
+![](misc/images/deposit_calc.png)
